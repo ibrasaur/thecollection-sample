@@ -195,4 +195,179 @@ export default function VaultEntry({ onComplete }: VaultEntryProps) {
             Islamabad · Est. 2019
           </p>
         </div>
-        {/* Top edge glow */
+        {/* Top edge glow */}
+<div className="absolute top-0 left-0 right-0 h-[1px]" style={{
+background: linear-gradient(90deg,transparent,rgba(201,185,154,${isOpening ? 1 : 0.3}) 30%,rgba(255,255,255,${isOpening ? 0.7 : 0.12}) 50%,rgba(201,185,154,${isOpening ? 1 : 0.3}) 70%,transparent),
+}} />
+<div className="absolute top-0 left-0 right-0 h-8" style={{ background:'linear-gradient(180deg,rgba(0,0,0,0.5),transparent)' }} />
+</motion.div>
+  {/* ─── SEAM LIGHT BURST ────────────────────── */}
+  <motion.div
+    className="absolute left-0 right-0 pointer-events-none z-10"
+    style={{ top:'50vh', translateY:'-50%' }}
+    animate={isOpening
+      ? { scaleY:[1,8,0], opacity:[0.6,1,0] }
+      : { scaleY:1, opacity: progress > 0 ? 0.15 + progress * 0.7 : 0.06 }
+    }
+    transition={isOpening ? { duration:0.7, ease:'easeOut' } : { duration:0.15 }}
+  >
+    <div className="h-[1px] w-full" style={{
+      background:'linear-gradient(90deg,transparent,rgba(201,185,154,0.5) 20%,rgba(255,255,255,0.85) 50%,rgba(201,185,154,0.5) 80%,transparent)',
+    }} />
+  </motion.div>
+
+  {/* ─── DIAL CONTAINER ──────────────────────── */}
+  <div className="absolute inset-0 flex items-center justify-center z-20">
+    <motion.div
+      className="relative w-[300px] h-[300px]"
+      animate={isOpening   ? { opacity:0, scale:0.82, filter:'blur(10px)' }
+             : isUnlocking  ? { scale:1.03 }
+             : { opacity:1, scale:1, filter:'blur(0px)' }}
+      transition={isOpening ? { duration:0.5 } : isUnlocking ? { duration:0.25 } : {}}
+    >
+      {/* Dynamic glow */}
+      <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+        boxShadow:`0 0 ${28 + progress * 90}px rgba(201,185,154,${glowAlpha}), 0 0 ${60 + progress * 120}px rgba(201,185,154,${glowAlpha * 0.4})`,
+      }} />
+
+      {/* Progress ring SVG */}
+      <svg width="300" height="300" viewBox="0 0 300 300"
+        className="absolute inset-0 pointer-events-none z-[1]"
+        style={{ transform:'rotate(-90deg)' }}>
+        <defs>
+          <linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stopColor="#7A6848" />
+            <stop offset="45%"  stopColor="#E0D0B8" />
+            <stop offset="100%" stopColor="#C9B99A" />
+          </linearGradient>
+        </defs>
+        <circle cx="150" cy="150" r="138" fill="none"
+          stroke="rgba(201,185,154,0.07)" strokeWidth="1" />
+        <circle cx="150" cy="150" r="138" fill="none"
+          stroke="url(#pg)" strokeWidth="2.5"
+          strokeDasharray={CIRC}
+          strokeDashoffset={dashOffset}
+          strokeLinecap="round"
+          style={{ transition:'stroke-dashoffset 0.07s linear' }}
+        />
+      </svg>
+
+      {/* Top pointer (fixed) */}
+      <div className="absolute top-[-8px] left-1/2 -translate-x-1/2 z-[3] pointer-events-none">
+        <svg width="10" height="13" viewBox="0 0 10 13">
+          <polygon points="5,0 0,11 10,11" fill="#C9B99A" opacity="0.92" />
+        </svg>
+      </div>
+
+      {/* Outer bezel */}
+      <div className="absolute top-[10px] left-[10px] w-[280px] h-[280px] rounded-full z-[2]"
+        style={{
+          background:'radial-gradient(ellipse at 32% 26%,#26263A 0%,#131320 40%,#090910 100%)',
+          boxShadow:[
+            'inset 0 2px 5px rgba(255,255,255,0.055)',
+            'inset 0 -3px 7px rgba(0,0,0,0.65)',
+            '0 0 0 1px rgba(201,185,154,0.14)',
+            '0 22px 70px rgba(0,0,0,0.85)',
+          ].join(','),
+        }}>
+
+        {/* Rotating dial */}
+        <motion.div
+          ref={dialRef}
+          className="absolute inset-[10px] rounded-full select-none"
+          style={{
+            rotate: dialRotation,
+            background:'radial-gradient(ellipse at 38% 33%,#1E1E2C 0%,#10101A 50%,#07070C 100%)',
+            boxShadow:'inset 0 2px 6px rgba(255,255,255,0.038), inset 0 -2px 5px rgba(0,0,0,0.7)',
+            cursor: phase === 'locked' ? 'grab' : 'default',
+          }}
+          onMouseDown={e => { e.preventDefault(); startDrag(e.clientX, e.clientY) }}
+          onTouchStart={e => startDrag(e.touches[0].clientX, e.touches[0].clientY)}
+          whileTap={{ cursor:'grabbing' }}
+        >
+          <svg viewBox="0 0 300 300" className="w-full h-full">
+            {/* Tick marks */}
+            {ticks.map((t,i) => (
+              <line key={i} x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+                stroke={t.isMaj ? '#C9B99A' : t.isMid ? 'rgba(201,185,154,0.42)' : 'rgba(201,185,154,0.16)'}
+                strokeWidth={t.isMaj ? 1.5 : t.isMid ? 1 : 0.5}
+              />
+            ))}
+            {/* Grip serrations */}
+            {grips.map((g,i) => (
+              <line key={`g${i}`} x1={g.x1} y1={g.y1} x2={g.x2} y2={g.y2}
+                stroke="rgba(201,185,154,0.1)" strokeWidth="1" />
+            ))}
+            {/* Numbers */}
+            {nums.map((n,i) => (
+              <text key={i} x={n.x} y={n.y}
+                textAnchor="middle" dominantBaseline="middle"
+                fill="rgba(201,185,154,0.62)" fontSize="9.5"
+                fontFamily="'Jost',sans-serif" fontWeight="400" letterSpacing="1">
+                {n.label}
+              </text>
+            ))}
+            {/* Inner rings */}
+            <circle cx="150" cy="150" r="76" fill="none" stroke="rgba(201,185,154,0.09)" strokeWidth="0.75" />
+            <circle cx="150" cy="150" r="65" fill="none" stroke="rgba(201,185,154,0.07)" strokeWidth="0.5" strokeDasharray="2 4" />
+            {/* Notch on dial at 12 o'clock (rotates with dial) */}
+            <polygon points="150,77 147,87 153,87" fill="rgba(201,185,154,0.55)" />
+            {/* Center medallion */}
+            <defs>
+              <radialGradient id="cg" cx="38%" cy="32%">
+                <stop offset="0%"   stopColor="#1C1C2A" />
+                <stop offset="100%" stopColor="#09090E" />
+              </radialGradient>
+            </defs>
+            <circle cx="150" cy="150" r="58" fill="url(#cg)"
+              stroke="rgba(201,185,154,0.16)" strokeWidth="1" />
+            <text x="150" y="148" textAnchor="middle" dominantBaseline="middle"
+              fill="#C9B99A" fontSize="30"
+              fontFamily="'Cormorant Garamond',Georgia,serif"
+              fontWeight="400" letterSpacing="4">
+              TC
+            </text>
+            <text x="150" y="165" textAnchor="middle" dominantBaseline="middle"
+              fill="rgba(201,185,154,0.4)" fontSize="5.8"
+              fontFamily="'Jost',sans-serif" fontWeight="300" letterSpacing="4.5">
+              THE COLLECTION
+            </text>
+          </svg>
+        </motion.div>
+      </div>
+
+      {/* Hint / progress label */}
+      <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 pointer-events-none whitespace-nowrap text-center">
+        {showHint ? (
+          <motion.p
+            animate={{ opacity:[0.35,0.85,0.35] }}
+            transition={{ duration:2.6, repeat:Infinity }}
+            style={{ fontFamily:'var(--font-body)', letterSpacing:'0.4em', fontSize:'10px', color:'rgba(201,185,154,0.6)', textTransform:'uppercase' }}>
+            ← Rotate to Enter →
+          </motion.p>
+        ) : (
+          <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }}>
+            <span style={{ fontFamily:'var(--font-cormorant)', fontSize:'22px', color:'rgba(201,185,154,0.88)' }}>
+              {Math.round(progress * 100)}
+            </span>
+            <span style={{ fontFamily:'var(--font-body)', fontSize:'10px', color:'rgba(201,185,154,0.38)', marginLeft:'2px', letterSpacing:'0.1em' }}>
+              %
+            </span>
+          </motion.div>
+        )}
+      </div>
+    </motion.div>
+  </div>
+
+  {/* ─── CORNER BRACKETS ─────────────────────── */}
+  {(['top-5 left-5','top-5 right-5','bottom-5 left-5','bottom-5 right-5'] as const).map((pos,i) => (
+    <div key={i} className={`absolute ${pos} w-7 h-7 pointer-events-none z-10`}>
+      <svg viewBox="0 0 28 28" fill="none">
+        <path d={['M0 14 L0 0 L14 0','M14 0 L28 0 L28 14','M0 14 L0 28 L14 28','M14 28 L28 28 L28 14'][i]}
+          stroke="rgba(201,185,154,0.3)" strokeWidth="1" />
+      </svg>
+    </div>
+  ))}
+</div>
+)
+}
