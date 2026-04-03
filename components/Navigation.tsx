@@ -1,5 +1,6 @@
 'use client'
-
+import { useRef } from 'react'
+import { useMotionValue } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -194,5 +195,4 @@ function MagneticButton({ label, onClick }: { label: string; onClick: () => void
   )
 }
 
-import { useRef } from 'react'
-import { useMotionValue } from 'framer-motion'
+
