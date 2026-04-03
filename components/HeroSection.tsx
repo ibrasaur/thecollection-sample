@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useInView, useMotionValue } from 'framer-motion'
 import LiquidMetalCanvas from './LiquidMetalCanvas'
 
@@ -13,8 +13,16 @@ const blurIn = (delay: number) => ({
 })
 
 export default function HeroSection() {
-  const ref    = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true })
+  const ref      = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const inView   = useInView(ref, { once: true })
+  const [muted, setMuted] = useState(true)
+
+  const toggleMute = () => {
+    if (!videoRef.current) return
+    videoRef.current.muted = !videoRef.current.muted
+    setMuted(videoRef.current.muted)
+  }
 
   return (
     <section
@@ -27,12 +35,52 @@ export default function HeroSection() {
 
       {/* Video blend */}
       <video
+        ref={videoRef}
         autoPlay muted loop playsInline
         className="absolute inset-0 w-full h-full object-cover"
         style={{ opacity: 0.28, mixBlendMode: 'luminosity' }}
       >
         <source src={HERO_VIDEO} type="video/mp4" />
       </video>
+
+      {/* Mute / unmute button */}
+      <button
+        onClick={toggleMute}
+        data-cursor
+        className="absolute bottom-10 right-8 z-20 flex items-center gap-2"
+        style={{ background: 'none', border: 'none', cursor: 'none', padding: '8px' }}
+      >
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.93 }}
+          className="flex items-center gap-2"
+          style={{
+            fontFamily: 'var(--font-jost)',
+            fontSize: '9px',
+            letterSpacing: '0.45em',
+            textTransform: 'uppercase',
+            color: muted ? 'rgba(201,185,154,0.5)' : 'rgba(201,185,154,0.85)',
+            transition: 'color 0.3s',
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            {muted ? (
+              <>
+                <path d="M8 3L4 6H1V10H4L8 13V3Z" stroke="rgba(201,185,154,0.6)" strokeWidth="1" fill="none" strokeLinejoin="round" />
+                <line x1="11" y1="6" x2="15" y2="10" stroke="rgba(201,185,154,0.6)" strokeWidth="1" strokeLinecap="round" />
+                <line x1="15" y1="6" x2="11" y2="10" stroke="rgba(201,185,154,0.6)" strokeWidth="1" strokeLinecap="round" />
+              </>
+            ) : (
+              <>
+                <path d="M8 3L4 6H1V10H4L8 13V3Z" stroke="#C9B99A" strokeWidth="1" fill="none" strokeLinejoin="round" />
+                <path d="M11 5.5C12.2 6.4 13 7.1 13 8C13 8.9 12.2 9.6 11 10.5" stroke="#C9B99A" strokeWidth="1" strokeLinecap="round" fill="none" />
+                <path d="M12.5 3.5C14.5 4.9 15.5 6.4 15.5 8C15.5 9.6 14.5 11.1 12.5 12.5" stroke="rgba(201,185,154,0.45)" strokeWidth="1" strokeLinecap="round" fill="none" />
+              </>
+            )}
+          </svg>
+          {muted ? 'Sound Off' : 'Sound On'}
+        </motion.div>
+      </button>
 
       {/* Radial vignette */}
       <div
