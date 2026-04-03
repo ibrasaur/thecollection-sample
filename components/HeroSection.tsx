@@ -81,9 +81,17 @@ export default function HeroSection() {
           }}
         >
           The<br />
-          <em style={{ color: '#C9B99A', fontStyle: 'italic', fontWeight: 400 }}>
-            Collection
-          </em>
+          The<br />
+  <em 
+    style={{ 
+      color: '#C9B99A', 
+      fontStyle: 'italic', 
+      fontWeight: 400,
+      fontFamily: '"Times New Roman", Times, serif' // Added this line
+    }}
+  >
+    Collection
+  </em>
         </motion.h1>
 
         <motion.div
