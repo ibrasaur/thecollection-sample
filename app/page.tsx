@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import VaultEntry     from '@/components/VaultEntry'
+//import VaultEntry     from '@/components/VaultEntry'
 import Navigation     from '@/components/Navigation'
 import HeroSection    from '@/components/HeroSection'
 import InventoryGallery from '@/components/InventoryGallery'
@@ -19,16 +19,16 @@ export default function Home() {
       <CustomCursor />
       <ParticleDust />
 
-      {!isVaultOpen && (
-        <VaultEntry onComplete={() => setIsVaultOpen(true)} />
-      )}
+      //{!isVaultOpen && (
+      //  <VaultEntry onComplete={() => setIsVaultOpen(true)} />
+      //)}
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isVaultOpen ? 1 : 0 }}
-        transition={{ duration: 1.4, delay: 0.3 }}
-      >
-        <Navigation isVisible={isVaultOpen} />
+     // <motion.div
+       // initial={{ opacity: 0 }}
+      //  animate={{ opacity: isVaultOpen ? 1 : 0 }}
+      //  transition={{ duration: 1.4, delay: 0.3 }}
+     // >
+        //<Navigation isVisible={isVaultOpen} />
         <main>
           <HeroSection />
           <InventoryGallery />
