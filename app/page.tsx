@@ -19,7 +19,7 @@ export default function Home() {
       <CustomCursor />
       <ParticleDust />
 
-      //{!isVaultOpen && (
+      {!isVaultOpen && (
         <VaultEntry onComplete={() => setIsVaultOpen(true)} />
       )}
 
