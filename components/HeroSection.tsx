@@ -1,5 +1,6 @@
 'use client'
-
+import { useRef } from 'react'
+import { useMotionValue } from 'framer-motion'
 import { useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import LiquidMetalCanvas from './LiquidMetalCanvas'
@@ -175,5 +176,4 @@ function HeroMagneticBtn({ label, onClick, primary }: { label: string; onClick: 
   )
 }
 
-import { useRef } from 'react'
-import { useMotionValue } from 'framer-motion'
+
