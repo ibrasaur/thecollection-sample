@@ -8,6 +8,38 @@ interface VaultEntryProps { onComplete: () => void }
 const TARGET_DEG = 540
 const CIRC      = 2 * Math.PI * 138
 
+/* ── Precomputed geometry (module-level, never recalculated) ── */
+const ticks = Array.from({ length: 120 }, (_, i) => {
+  const angle = (i / 120) * 360
+  const rad   = (angle * Math.PI) / 180
+  const isMaj = i % 10 === 0
+  const isMid = i % 5  === 0
+  const r1    = isMaj ? 104 : isMid ? 109 : 113
+  return {
+    x1: 150 + r1  * Math.sin(rad), y1: 150 - r1  * Math.cos(rad),
+    x2: 150 + 118 * Math.sin(rad), y2: 150 - 118 * Math.cos(rad),
+    isMaj, isMid,
+  }
+})
+
+const nums = Array.from({ length: 12 }, (_, i) => {
+  const angle = (i / 12) * 360
+  const rad   = (angle * Math.PI) / 180
+  return {
+    x: 150 + 92 * Math.sin(rad),
+    y: 150 - 92 * Math.cos(rad),
+    label: (i === 0 ? 60 : i * 5).toString().padStart(2,'0'),
+  }
+})
+
+const grips = Array.from({ length: 60 }, (_, i) => {
+  const rad = ((i / 60) * 360 * Math.PI) / 180
+  return {
+    x1: 150 + 121 * Math.sin(rad), y1: 150 - 121 * Math.cos(rad),
+    x2: 150 + 127 * Math.sin(rad), y2: 150 - 127 * Math.cos(rad),
+  }
+})
+
 export default function VaultEntry({ onComplete }: VaultEntryProps) {
   const [phase,    setPhase]    = useState<'locked'|'unlocking'|'opening'|'done'>('locked')
   const [progress, setProgress] = useState(0)
@@ -62,7 +94,9 @@ export default function VaultEntry({ onComplete }: VaultEntryProps) {
     lastAngleRef.current = angle
 
     const p = Math.min(accumulatedRef.current / TARGET_DEG, 1)
-    setProgress(p)
+    // Throttled update: only re-render if progress moves by more than ~0.4%
+    setProgress(prev => Math.abs(prev - p) > 0.004 ? p : prev)
+
     if (accumulatedRef.current >= TARGET_DEG) {
       isDraggingRef.current = false
       triggerUnlock()
@@ -96,37 +130,6 @@ export default function VaultEntry({ onComplete }: VaultEntryProps) {
   const isUnlocking = phase === 'unlocking'
   const dashOffset  = CIRC * (1 - progress)
   const glowAlpha   = 0.05 + progress * 0.3
-
-  const ticks = Array.from({ length: 120 }, (_, i) => {
-    const angle = (i / 120) * 360
-    const rad   = (angle * Math.PI) / 180
-    const isMaj = i % 10 === 0
-    const isMid = i % 5  === 0
-    const r1    = isMaj ? 104 : isMid ? 109 : 113
-    return {
-      x1: 150 + r1  * Math.sin(rad), y1: 150 - r1  * Math.cos(rad),
-      x2: 150 + 118 * Math.sin(rad), y2: 150 - 118 * Math.cos(rad),
-      isMaj, isMid,
-    }
-  })
-
-  const nums = Array.from({ length: 12 }, (_, i) => {
-    const angle = (i / 12) * 360
-    const rad   = (angle * Math.PI) / 180
-    return {
-      x: 150 + 92 * Math.sin(rad),
-      y: 150 - 92 * Math.cos(rad),
-      label: (i === 0 ? 60 : i * 5).toString().padStart(2,'0'),
-    }
-  })
-
-  const grips = Array.from({ length: 60 }, (_, i) => {
-    const rad = ((i / 60) * 360 * Math.PI) / 180
-    return {
-      x1: 150 + 121 * Math.sin(rad), y1: 150 - 121 * Math.cos(rad),
-      x2: 150 + 127 * Math.sin(rad), y2: 150 - 127 * Math.cos(rad),
-    }
-  })
 
   const DOOR_BG_TOP    = 'linear-gradient(180deg,#050507 0%,#0D0D14 88%,#141420 100%)'
   const DOOR_BG_BOTTOM = 'linear-gradient(0deg,#050507 0%,#0D0D14 88%,#141420 100%)'
