@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design tokens ──────────────────────────────── */
+:root {
+  --obsidian:        #08080A;
+  --obsidian-mid:    #111116;
+  --obsidian-light:  #1C1C24;
+  --white-gold:      #C9B99A;
+  --white-gold-bright: #E0D0B8;
+  --white-gold-deep: #A89478;
+  --platinum:        #E2E2E8;
+  --platinum-dim:    #9090A0;
+  --gold-sheen: linear-gradient(90deg,#A89478,#E0D0B8,#C9B99A,#BFA87A,#E0D0B8,#A89478);
+}
+
+/* ─── Reset ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--obsidian);
+  color: var(--platinum);
+  font-family: var(--font-jost), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  cursor: none; /* custom cursor active */
+}
+
+/* ─── Scrollbar ──────────────────────────────────── */
+::-webkit-scrollbar       { width: 3px; }
+::-webkit-scrollbar-track { background: var(--obsidian); }
+::-webkit-scrollbar-thumb { background: var(--white-gold-deep); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--white-gold); }
+
+/* ─── Typography defaults ────────────────────────── */
+h1,h2,h3,h4,h5,h6 {
+  font-family: var(--font-cormorant), Georgia, serif;
+  letter-spacing: -0.02em;
+}
+
+/* ─── Text selection ─────────────────────────────── */
+::selection {
+  background: rgba(201,185,154,0.22);
+  color: var(--white-gold-bright);
+}
+
+/* ─── Utility: shimmer text ──────────────────────── */
+.text-gold-gradient {
+  background: var(--gold-sheen);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Vault door ribbing texture ─────────────────── */
+.vault-ribbing {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 18px,
+    rgba(201,185,154,0.035) 18px,
+    rgba(201,185,154,0.035) 19px
+  );
+}
+
+/* ─── Glass surface ──────────────────────────────── */
+.glass {
+  background: rgba(8,8,10,0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(201,185,154,0.1);
+}
+
+/* ─── Blur-in animation ──────────────────────────── */
+@keyframes blurToFocus {
+  from { opacity:0; filter:blur(20px); transform:translateY(18px); }
+  to   { opacity:1; filter:blur(0px);  transform:translateY(0);    }
+}
+.blur-in { animation: blurToFocus 1.2s cubic-bezier(0.25,0.4,0.25,1) forwards; }
+
+/* ─── Hide cursor on touch devices ──────────────── */
+@media (hover: none) {
+  body { cursor: auto; }
+  .custom-cursor { display: none; }
+}
