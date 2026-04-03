@@ -4,7 +4,6 @@ import { useRef } from 'react'
 import { motion, useInView, useMotionValue } from 'framer-motion'
 import LiquidMetalCanvas from './LiquidMetalCanvas'
 
-/* ─ Replace with your real video URL ─ */
 const HERO_VIDEO = 'https://res.cloudinary.com/dvn7e08ze/video/upload/q_auto/f_auto/v1775200537/This_isn_t_just_a_car_dealership.This_is_a_vision_built_brick_by_brick_this_is_an_entire_ecosy_amgbg4.mp4'
 
 const blurIn = (delay: number) => ({
@@ -26,16 +25,14 @@ export default function HeroSection() {
       {/* WebGL layer */}
       <LiquidMetalCanvas />
 
-      {/* Optional video blend */}
-      {HERO_VIDEO !== 'https://res.cloudinary.com/dvn7e08ze/video/upload/q_auto/f_auto/v1775200537/This_isn_t_just_a_car_dealership.This_is_a_vision_built_brick_by_brick_this_is_an_entire_ecosy_amgbg4.mp4' && (
-        <video
-          autoPlay muted loop playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ opacity: 0.28, mixBlendMode: 'luminosity' }}
-        >
-          <source src={HERO_VIDEO} type="video/mp4" />
-        </video>
-      )}
+      {/* Video blend */}
+      <video
+        autoPlay muted loop playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ opacity: 0.28, mixBlendMode: 'luminosity' }}
+      >
+        <source src={HERO_VIDEO} type="video/mp4" />
+      </video>
 
       {/* Radial vignette */}
       <div
@@ -81,17 +78,9 @@ export default function HeroSection() {
           }}
         >
           The<br />
-          The<br />
-  <em 
-    style={{ 
-      color: '#C9B99A', 
-      fontStyle: 'italic', 
-      fontWeight: 400,
-      fontFamily: '"Times New Roman", Times, serif' // Added this line
-    }}
-  >
-    Collection
-  </em>
+          <em style={{ color: '#C9B99A', fontStyle: 'italic', fontWeight: 400 }}>
+            Collection
+          </em>
         </motion.h1>
 
         <motion.div
