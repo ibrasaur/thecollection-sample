@@ -5,7 +5,7 @@ import { motion, useInView, useMotionValue } from 'framer-motion'
 import LiquidMetalCanvas from './LiquidMetalCanvas'
 
 /* ─ Replace with your real video URL ─ */
-const HERO_VIDEO = 'https://www.instagram.com/thecollectionisb/reel/DUOXKcdjPX4/'
+const HERO_VIDEO = 'https://res.cloudinary.com/dvn7e08ze/video/upload/q_auto/f_auto/v1775200537/This_isn_t_just_a_car_dealership.This_is_a_vision_built_brick_by_brick_this_is_an_entire_ecosy_amgbg4.mp4'
 
 const blurIn = (delay: number) => ({
   initial:    { opacity: 0, filter: 'blur(18px)', y: 22 },
