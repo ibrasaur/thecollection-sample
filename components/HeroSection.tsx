@@ -27,7 +27,7 @@ export default function HeroSection() {
       <LiquidMetalCanvas />
 
       {/* Optional video blend */}
-      {HERO_VIDEO !== 'HERO_VIDEO_URL_HERE' && (
+      {HERO_VIDEO !== 'https://res.cloudinary.com/dvn7e08ze/video/upload/q_auto/f_auto/v1775200537/This_isn_t_just_a_car_dealership.This_is_a_vision_built_brick_by_brick_this_is_an_entire_ecosy_amgbg4.mp4' && (
         <video
           autoPlay muted loop playsInline
           className="absolute inset-0 w-full h-full object-cover"
