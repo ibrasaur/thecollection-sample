@@ -5,7 +5,7 @@ import { motion, useInView, useMotionValue } from 'framer-motion'
 import LiquidMetalCanvas from './LiquidMetalCanvas'
 
 /* ─ Replace with your real video URL ─ */
-const HERO_VIDEO = 'HERO_VIDEO_URL_HERE'
+const HERO_VIDEO = '<video src="public/videos/2.mp4" autoPlay loop />'
 
 const blurIn = (delay: number) => ({
   initial:    { opacity: 0, filter: 'blur(18px)', y: 22 },
