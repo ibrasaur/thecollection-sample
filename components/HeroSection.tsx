@@ -1,12 +1,10 @@
 'use client'
-import { useRef } from 'react'
-import { useMotionValue } from 'framer-motion'
 import { useEffect, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useMotionValue } from 'framer-motion'
 import LiquidMetalCanvas from './LiquidMetalCanvas'
 
 /* ─ Replace with your real video URL ─ */
-const HERO_VIDEO = 'HERO_VIDEO_URL_HERE'
+const HERO_VIDEO = 'https://www.instagram.com/thecollectionisb/reel/DUOXKcdjPX4/'
 
 const blurIn = (delay: number) => ({
   initial: { opacity: 0, filter: 'blur(18px)', y: 22 },
