@@ -14,7 +14,7 @@ const CARS = [
     badge: 'Autobiography',
     spec:  '4.4L V8 · 530 bhp',
     price: 'POA',
-    src:   'https://www.instagram.com/thecollectionisb/p/DWmJnLGDIme/',
+    src:   'https://res.cloudinary.com/dvn7e08ze/image/upload/q_auto/f_auto/v1775200557/2020_Range_Rover_Vogue_Autobiography_LWBPresence._Comfort._Authority._Islamabad_Registered_UK_vnpsor.jpg',
     accent:'#8B9E7A',
   },
   {
@@ -26,7 +26,7 @@ const CARS = [
     badge: 'AMG Executive',
     spec:  '5.5L V8 Biturbo · 577 bhp',
     price: 'POA',
-    src:   'https://www.instagram.com/thecollectionisb/p/DWWA2puDCFa/',
+    src:   'https://res.cloudinary.com/dvn7e08ze/image/upload/q_auto/f_auto/v1775200555/A_statement_of_power_presence_and_pure_AMG_luxury_this_isn_t_just_an_S-Class_this_is_the_S63_cnmrn4.jpg',
     accent:'#8E8E7A',
   },
   {
@@ -38,7 +38,7 @@ const CARS = [
     badge: 'RS Quattro',
     spec:  'Dual Motor · 598 bhp',
     price: 'POA',
-    src:   'https://www.instagram.com/thecollectionisb/p/DVqUPU9DFRC/',
+    src:   'https://res.cloudinary.com/dvn7e08ze/image/upload/q_auto/f_auto/v1775200555/2022_Audi_e-tron_GTAudi_Import_-_Audi_MaintainedOnly_11_000_KM_DrivenFinished_in_a_stunning_Blac_h56txp.jpg',
     accent:'#7A8E9E',
   },
 ]
